@@ -38,5 +38,26 @@ class GoPkg
       false
     end
     
+    def get_info_refs
+      service_name = get_service_type
+      puts service_name
+
+      if has_access(service_name)
+        cmd = git_command("#{service_name} --stateless-rpc --advertise-refs .")
+        refs = `#{cmd}`
+
+        @res = Rack::Response.new
+        @res.status = 200
+        @res["Content-Type"] = "application/x-git-%s-advertisement" % service_name
+        hdr_nocache
+        @res.write(pkt_write("# service=git-#{service_name}\n"))
+        @res.write(pkt_flush)
+        @res.write(refs)
+        @res.finish
+      else
+        dumb_info_refs
+      end
+    end
   end
+  
 end
