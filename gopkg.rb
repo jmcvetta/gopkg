@@ -29,6 +29,7 @@ class GoPkg
       root = @config[:project_root] || `pwd`
       #path = File.join(root, path)
       path = File.join(root, 'example.git')
+      puts path
       if File.exists?(path) # TODO: check is a valid git directory
         return path
       end
