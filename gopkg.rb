@@ -12,7 +12,7 @@ class GoPkg
   class App < GitHttp::App
     
     #@@github_pat = '^/github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)/(tag|branch|rev)/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+.git)*$'
-    @@github_pat = '^/github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)/(tag)/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+).git*$'
+    @@github_pat = '^/github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)/(tag)/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)$'
 
     def call(env)
       puts '--------------------------------------------------------------------------------'
