@@ -26,7 +26,7 @@ class GoPkg
         puts 'does not exist'
         `mkdir -p #{checkout}`
         Dir.chdir(checkout) do
-          clone = git_command('clone --bare --branch pregame http://github.com/seven5/seven5 .')
+          clone = git_command('clone --bare --branch pregame git://github.com/seven5/seven5 .')
           res = `#{clone}`
           puts res
         end
