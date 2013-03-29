@@ -29,11 +29,12 @@ class GoPkg
     def get_git_dir(path)
       root = @config[:project_root] || `pwd`
       #path = File.join(root, path)
-      path = File.join(root, 'example.git')
+      path = File.join(ENV['PWD'], 'example.git')
       puts path
       if File.exists?(path) # TODO: check is a valid git directory
         return path
       end
+      puts 'false'
       false
     end
     
