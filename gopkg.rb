@@ -8,6 +8,7 @@ class GoPkg
       @req = Rack::Request.new(env)
       
       cmd, path, @reqfile, @rpc = match_routing
+      puts match_routing
       
       #
       # TODO: Fetch the required git tag
