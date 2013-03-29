@@ -19,6 +19,7 @@ class GoPkg
       return render_not_found if !cmd
 
       @dir = get_git_dir(path)
+      puts @dir
       return render_not_found if !@dir
 
       Dir.chdir(@dir) do
@@ -44,6 +45,7 @@ class GoPkg
 
       if has_access(service_name)
         cmd = git_command("#{service_name} --stateless-rpc --advertise-refs .")
+        puts cmd
         refs = `#{cmd}`
 
         @res = Rack::Response.new
