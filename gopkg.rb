@@ -1,4 +1,6 @@
 require 'git_http'
+require 'tmpdir'
+
 
 class GoPkg
   class App < GitHttp::App
@@ -10,15 +12,28 @@ class GoPkg
       cmd, path, @reqfile, @rpc = match_routing
       puts match_routing
       
-      #
-      # TODO: Fetch the required git tag
-      #
-      #@reqfile = 'example.git'
-
       return render_method_not_allowed if cmd == 'not_allowed'
       return render_not_found if !cmd
 
-      @dir = get_git_dir(path)
+      #
+      # Fetch the git tag
+      #
+      
+      path = 'github.com/seven5/seven5/tag/pregame/seven5'
+      checkout = File.join(Dir.tmpdir(), path)
+      puts checkout
+      if !File.exists?(File.join(checkout, 'objects')) 
+        puts 'does not exist'
+        `mkdir -p #{checkout}`
+        Dir.chdir(checkout) do
+          clone = git_command('clone --bare --branch pregame http://github.com/seven5/seven5 .')
+          res = `#{clone}`
+          puts res
+        end
+      end
+
+      #@dir = get_git_dir(path)
+      @dir = checkout
       puts @dir
       return render_not_found if !@dir
 
