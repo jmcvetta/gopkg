@@ -37,13 +37,13 @@ class GoPkg
       github_repo = 'github.com/' + user + '/' + repo + '.git'
       clone_cmd = "clone --bare --branch #{specifier} git://#{github_repo} ."
       checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
-      puts user
-      puts repo
-      puts variant
-      puts specifier
-      puts check_repo
-      puts clone_cmd
-      puts checkout
+      puts 'user: ' + user
+      puts 'repo: ' + repo
+      puts 'variant: ' + variant
+      puts 'specifier: ' + specifier
+      puts 'check_repo: ' + check_repo
+      puts 'clone_cmd: ' + clone_cmd
+      puts 'checkout: ' + checkout
       return render_bad_request if check_repo != repo
       
       if !File.exists?(File.join(checkout, 'objects')) 
