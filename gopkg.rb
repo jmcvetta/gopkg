@@ -12,7 +12,7 @@ class GoPkg
       #
       # TODO: Fetch the required git tag
       #
-      @reqfile = 'example.git'
+      #@reqfile = 'example.git'
 
       return render_method_not_allowed if cmd == 'not_allowed'
       return render_not_found if !cmd
@@ -25,5 +25,15 @@ class GoPkg
       end
     end
 
+    def get_git_dir(path)
+      root = @config[:project_root] || `pwd`
+      #path = File.join(root, path)
+      path = File.join(root, 'example.git')
+      if File.exists?(path) # TODO: check is a valid git directory
+        return path
+      end
+      false
+    end
+    
   end
 end
