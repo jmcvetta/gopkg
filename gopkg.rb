@@ -15,16 +15,11 @@ class GoPkg
     @@github_pat = '^/github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)/(tag)/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)$'
 
     def call(env)
-      puts '--------------------------------------------------------------------------------'
       @env = env
       @req = Rack::Request.new(env)
       
       cmd, path, @reqfile, @rpc = match_routing
-      puts 'cmd: ' + cmd
-      if cmd == 'not_allowed'
-        puts 'not allowed: ' + cmd
-        return render_method_not_allowed 
-      end
+      return render_method_not_allowed if cmd == 'not_allowed'
       return render_not_found if !cmd
 
       #
@@ -32,12 +27,7 @@ class GoPkg
       #
       
       m = path.match(@@github_pat)
-      puts 'm:'
-      puts m
-      if !m
-        puts 'bad request - no match'
-        return render_bad_request 
-      end
+      return render_bad_request if !m
       user = m[1]
       repo = m[2]
       variant = m[3] # tag branch or revision
@@ -47,30 +37,17 @@ class GoPkg
       # git on heroku chokes if we use http://github.com/...
       clone_cmd = "clone --bare --branch #{specifier} git://#{github_repo} ."
       checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
-      puts 'user: ' + user
-      puts 'repo: ' + repo
-      puts 'variant: ' + variant
-      puts 'specifier: ' + specifier
-      puts 'check_repo: ' + check_repo
-      puts 'clone_cmd: ' + clone_cmd
-      puts 'checkout: ' + checkout
-      if check_repo != repo
-        puts 'bad request - check_repo'
-        return render_bad_request 
-      end
+      return render_bad_request if check_repo != repo
       
       if !File.exists?(File.join(checkout, 'objects')) 
-        puts 'does not exist'
         `mkdir -p #{checkout}`
         Dir.chdir(checkout) do
           clone = git_command(clone_cmd)
           res = `#{clone}`
-          puts res
         end
       end
 
       @dir = checkout
-      puts @dir
       return render_not_found if !@dir
 
       Dir.chdir(@dir) do
