@@ -21,7 +21,10 @@ class GoPkg
       
       cmd, path, @reqfile, @rpc = match_routing
       puts 'cmd: ' + cmd
-      return render_method_not_allowed if cmd == 'not_allowed'
+      if cmd == 'not_allowed'
+        puts 'not allowed: ' + cmd
+        return render_method_not_allowed 
+      end
       return render_not_found if !cmd
 
       #
@@ -31,7 +34,10 @@ class GoPkg
       m = path.match(@@github_pat)
       puts 'm:'
       puts m
-      return render_bad_request if !m
+      if !m
+        puts 'bad request - no match'
+        return render_bad_request 
+      end
       user = m[1]
       repo = m[2]
       variant = m[3] # tag branch or revision
@@ -48,7 +54,10 @@ class GoPkg
       puts 'check_repo: ' + check_repo
       puts 'clone_cmd: ' + clone_cmd
       puts 'checkout: ' + checkout
-      return render_bad_request if check_repo != repo
+      if check_repo != repo
+        puts 'bad request - check_repo'
+        return render_bad_request 
+      end
       
       if !File.exists?(File.join(checkout, 'objects')) 
         puts 'does not exist'
