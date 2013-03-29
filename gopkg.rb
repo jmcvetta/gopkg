@@ -15,6 +15,7 @@ class GoPkg
     @@github_pat = '^/github\.com/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+)/(tag)/([A-Za-z0-9_.\-]+)/([A-Za-z0-9_.\-]+).git*$'
 
     def call(env)
+      puts '--------------------------------------------------------------------------------'
       @env = env
       @req = Rack::Request.new(env)
       
@@ -28,6 +29,8 @@ class GoPkg
       #
       
       m = path.match(@@github_pat)
+      puts 'm:'
+      puts m
       return render_bad_request if !m
       user = m[1]
       repo = m[2]
@@ -35,6 +38,7 @@ class GoPkg
       specifier = m[4]
       check_repo = m[5]
       github_repo = 'github.com/' + user + '/' + repo + '.git'
+      # git on heroku chokes if we use http://github.com/...
       clone_cmd = "clone --bare --branch #{specifier} git://#{github_repo} ."
       checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
       puts 'user: ' + user
