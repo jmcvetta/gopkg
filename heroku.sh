@@ -6,3 +6,5 @@
 #
 
 heroku create --buildpack https://github.com/ddollar/heroku-buildpack-multi.git $1
+heroku addons:add newrelic:standard
+heroku config:set NEWRELIC_DISPATCHER=rackup
