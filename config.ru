@@ -6,6 +6,11 @@ use Rack::ShowExceptions
 
 require './gopkg'
 
+if ENV['RACK_ENV'] == 'production'
+  require 'newrelic_rpm'
+end
+
+
 config = {
   :project_root => "/app",
   :git_path => '/app/bin/bin/git',
