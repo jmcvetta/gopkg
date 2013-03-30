@@ -4,7 +4,7 @@ gopkg
 `gopkg` facilitates versioning of [Go](http://golang.org) packages - as a web service! - based on git tags.
 
 
-### Benefits:
+### Benefits
 
  * Non-invasive, works with `go get`
  * No metadata file in packages - just `git tag`
@@ -17,14 +17,14 @@ gopkg
  * Only need to change import statement; all other code remains the same.
  * Doesn't care about or attempt to understand version numbering schemes
 
-### Drawbacks:
+### Drawbacks
 
  * 'go get' emits a complaint, because it tries (and fails) to connect with
    git:// before trying (and succeeding with) http://
  * Long, slightly repetitive import names
  * Can't push changes back to tagged repos (this may be a benefit)
 
-### Notes:
+### Notes
 
  * Currently `gopkg` is a Ruby application based on
    [grack](https://github.com/schacon/grack), because there is no Git HTTP
