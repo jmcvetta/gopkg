@@ -6,6 +6,7 @@
 require 'git_http'
 require 'tmpdir'
 require 'uri'
+require 'fileutils'
 
 
 class GoPkg
@@ -39,7 +40,8 @@ class GoPkg
       checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
       return render_bad_request if check_repo != repo
       
-      if !File.exists?(File.join(checkout, 'objects')) 
+      if !File.exists?(File.join(checkout, 'objects')) || File.ctime(checkout) < Time.now - 600
+        FileUtils.rm_rf(checkout)
         `mkdir -p #{checkout}`
         Dir.chdir(checkout) do
           clone = git_command(clone_cmd)
