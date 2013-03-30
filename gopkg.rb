@@ -23,10 +23,6 @@ class GoPkg
       return render_method_not_allowed if cmd == 'not_allowed'
       return render_not_found if !cmd
 
-      #
-      # Fetch the git tag
-      #
-      
       m = path.match(@@github_pat)
       return render_bad_request if !m
       user = m[1]
@@ -34,18 +30,28 @@ class GoPkg
       variant = m[3] # tag branch or revision
       specifier = m[4]
       check_repo = m[5]
-      github_repo = 'github.com/' + user + '/' + repo + '.git'
-      # git on heroku chokes if we use http://github.com/...
-      clone_cmd = "clone --bare --branch #{specifier} git://#{github_repo} ."
-      checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
       return render_bad_request if check_repo != repo
       
-      if !File.exists?(File.join(checkout, 'objects')) || File.ctime(checkout) < Time.now - 600
+      # git on heroku chokes if we use http://github.com/...
+      github_repo = 'git://github.com/' + user + '/' + repo + '.git'
+      checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
+      
+      if !File.exists?(File.join(checkout)) || File.ctime(checkout) < Time.now - 600
         FileUtils.rm_rf(checkout)
         `mkdir -p #{checkout}`
         Dir.chdir(checkout) do
-          clone = git_command(clone_cmd)
-          res = `#{clone}`
+          git_cmds = [
+            "init .",
+            "remote add other #{github_repo}",
+            "fetch other",
+            "merge #{specifier}",
+            "remote rm other",
+          ]
+          git_cmds.each do |s|
+            gitcmd = git_command(s)
+            `#{gitcmd}`
+            #`#{gitcmd} 2>&1 > /dev/null`
+          end
         end
       end
 
