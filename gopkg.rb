@@ -8,6 +8,10 @@ require 'tmpdir'
 require 'uri'
 require 'fileutils'
 
+if ENV['RACK_ENV'] == 'production'
+  require 'newrelic_rpm'
+end
+
 
 class GoPkg
   class App < GitHttp::App

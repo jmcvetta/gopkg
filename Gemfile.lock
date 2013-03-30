@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     grack (0.0.2)
+    newrelic_rpm (3.6.0.78)
     rack (1.5.2)
 
 PLATFORMS
@@ -9,4 +10,5 @@ PLATFORMS
 
 DEPENDENCIES
   grack
+  newrelic_rpm
   rack
