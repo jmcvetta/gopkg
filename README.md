@@ -26,8 +26,9 @@ gopkg
 
 ### Notes:
 
- * Currently `gopkg` is a Ruby application based on grack, because there is no
-   Git HTTP server implementation in Go.  
+ * Currently `gopkg` is a Ruby application based on
+   [grack](https://github.com/schacon/grack), because there is no Git HTTP
+   server implementation in Go.  
  * It only supports github right now, but would not be hard to add other VCS.  
  * No effort is made at sane caching - repos are created in  temp space, which
    is not persistent on heroku.  Does not attempt to clean up repos - but does
