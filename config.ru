@@ -8,6 +8,10 @@ require './gopkg'
 
 if ENV['RACK_ENV'] == 'production'
   require 'newrelic_rpm'
+  require 'new_relic/agent/instrumentation/rack'
+  GoPkg::App.class_eval do
+    include NewRelic::Agent::Instrumentation::Rack
+  end
 end
 
 
