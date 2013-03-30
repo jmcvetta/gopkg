@@ -8,7 +8,6 @@ require './gopkg'
 
 if ENV['RACK_ENV'] == 'production'
   require 'newrelic_rpm'
-  NewRelic::Agent.after_fork(:force_reconnect => true)
 end
 
 
