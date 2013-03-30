@@ -17,7 +17,7 @@ end
 
 config = {
   :project_root => "/app",
-  :git_path => '/app/bin/bin/git',
+#  :git_path => '/app/bin/bin/git',
   :upload_pack => true,
   :receive_pack => true,
 }
