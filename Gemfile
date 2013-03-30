@@ -1,4 +1,9 @@
 source 'http://rubygems.org'
 gem 'rack'
 gem 'grack'
-gem 'newrelic_rpm'
+
+group :production do
+  gem 'newrelic_rpm'
+  gem 'thin'  
+end
+
