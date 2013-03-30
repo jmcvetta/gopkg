@@ -36,7 +36,7 @@ class GoPkg
       github_repo = 'git://github.com/' + user + '/' + repo + '.git'
       checkout = File.join(Dir.tmpdir(), 'github.com', user, repo, variant, specifier, repo)
       
-      if !File.exists?(File.join(checkout)) || File.ctime(checkout) < Time.now - 600
+      if !File.exists?(File.join(checkout)) || File.ctime(checkout) < Time.now - 120
         FileUtils.rm_rf(checkout)
         `mkdir -p #{checkout}`
         Dir.chdir(checkout) do
